@@ -1,0 +1,58 @@
+openapi: 3.0.3
+info:
+  title: TD OpenAPI Specification - Exercise 4
+  version: 1.0.0
+servers:
+  - url: 'http://localhost:8000'
+paths:
+  /products:
+    get:
+      parameters:
+        - $ref: '#/components/parameters/LimitQueryParameter'
+        - $ref: '#/components/parameters/SearchQueryParameter'
+      responses:
+        200:
+          description: List of optional filtered products
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+              examples:
+                multipleProducts:
+                  summary: Result with multiple products
+                  value:
+                    - name: Lait
+                      expiration_datetime: 2025-09-01T00:00:00.004Z
+                      price: 5000.0
+                noProducts:
+                  summary: Result with any product
+                  value: [ ]
+components:
+  parameters:
+    LimitQueryParameter:
+      in: query
+      name: limit
+      schema:
+        type: integer
+      required: false
+    SearchQueryParameter:
+      in: query
+      name: q
+      schema:
+        type: string
+      required: false
+  schemas:
+    Product:
+      type: object
+      properties:
+        name:
+          type: string
+        expiration_datetime:
+          type: string
+          format: date-time
+        price:
+          type: number
+          format: float
+  

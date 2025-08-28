@@ -1,0 +1,51 @@
+openapi: 3.0.3
+info:
+  title: TD OpenAPI Specification
+  description: TD OpenAPI Specification - Exercise 2
+  version: 1.0.0
+servers:
+  - url: 'http://localhost:8000'
+paths:
+  /users:
+    get:
+      parameters:
+        - in: query
+          name: page
+          schema:
+            type: integer
+        - in: query
+          name: size
+          schema:
+            type: integer
+      responses:
+        200:
+          description: List of users
+          content:
+            application/json:
+              schema:
+                # Erreur au niveau du sujet, car GET /users (au pluriel) doit retourner une liste
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      example: 1
+                    name:
+                      type: string
+                      example: Alice
+                    email:
+                      type: string
+                      format: email
+                      example: alice@example.com
+        400:
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Bad types for provided query parameters
+  
